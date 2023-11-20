@@ -4,25 +4,24 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import com.example.room1.R
 import com.example.room1.database.Note
 import com.example.room1.database.NoteDao
 import com.example.room1.database.NoteRoomDatabase
+import com.example.room1.databinding.ActivityMain2Binding
 import com.example.room1.databinding.ActivityMainBinding
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class MainActivity : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity() {
     private lateinit var mNotesDao: NoteDao
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMain2Binding
     private lateinit var executorService: ExecutorService
     private var updateId: Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         executorService = Executors.newSingleThreadExecutor()
@@ -30,22 +29,38 @@ class MainActivity : AppCompatActivity() {
         mNotesDao = db!!.nodeDao()!!
 
         with(binding){
-            btnAdd.setOnClickListener(View.OnClickListener {
-                insert(
+
+            val title = intent.getStringExtra(ListActivity.EXTRA_TITLE)
+            val desc = intent.getStringExtra(ListActivity.EXTRA_DESC)
+            val date = intent.getStringExtra(ListActivity.EXTRA_DATE)
+            val id = intent.getIntExtra(ListActivity.EXTRA_ID, 3)
+
+            txtTitle.setText(title)
+            txtDesc.setText(desc)
+            txtDate.setText(date)
+
+            btnUpdate.setOnClickListener {
+                update(
                     Note(
-                        id = updateId,
-                        title = txtTitle.text.toString(),
-                        description = txtDesc.text.toString(),
-                        date = txtDate.text.toString()
+                        id = id,
+                        title = txtTitle.getText().toString(),
+                        description = txtDesc.getText().toString(),
+                        date = txtDate.getText().toString()
                     )
                 )
-//                setEmptyField()
-                startActivity(Intent(this@MainActivity, ListActivity::class.java))
-            })
-            btnBack.setOnClickListener {
-                startActivity(Intent(this@MainActivity, ListActivity::class.java))
+                updateId = 0
+                startActivity(Intent(this@MainActivity2, ListActivity::class.java))
             }
 
+            btnDelete.setOnClickListener {
+                val noteToDelete = Note(id = id, "","","")
+
+                delete(noteToDelete)
+                startActivity(Intent(this@MainActivity2, ListActivity::class.java))
+            }
+            btnBack.setOnClickListener {
+                startActivity(Intent(this@MainActivity2, ListActivity::class.java))
+            }
 
 
         }
@@ -73,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     private fun update(note: Note) {
         executorService.execute { mNotesDao.update(note) }
     }
-//    override fun onResume() {
+    //    override fun onResume() {
 //        super.onResume()
 //        getAllNotes()
 //    }
@@ -84,7 +99,4 @@ class MainActivity : AppCompatActivity() {
             txtDate.setText("")
         }
     }
-
-
-
 }

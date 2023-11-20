@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity2">
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/navbar"
@@ -30,7 +30,7 @@
             android:id="@+id/navbar_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buat Baru"
+            android:text="Edit Data"
             android:textAlignment="center"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="15dp">
+        android:layout_margin="20dp">
         <EditText
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
@@ -63,11 +63,18 @@
 
 
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
         android:text="Simpan"/>
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/red"
+        android:text="Hapus"/>
 
 
 
