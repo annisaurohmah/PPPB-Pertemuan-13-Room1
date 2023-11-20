@@ -54,7 +54,6 @@ class MainActivity2 : AppCompatActivity() {
 
             btnDelete.setOnClickListener {
                 val noteToDelete = Note(id = id, "","","")
-
                 delete(noteToDelete)
                 startActivity(Intent(this@MainActivity2, ListActivity::class.java))
             }
